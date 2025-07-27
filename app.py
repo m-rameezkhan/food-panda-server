@@ -44,8 +44,7 @@ If you continue to receive such emails without initiating them, we recommend cha
 
 Best regards,  
 Food Panda Team  
-https://rameez-foodpanda.netlify.app  
-support@foodpanda.example.com
+https://rameez-foodpanda.netlify.app
 """)
 
     try:
