@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # ✅ import CORS
+from flask_cors import CORS
 import smtplib
 from email.message import EmailMessage
 import os
 
 app = Flask(__name__)
-# CORS(app)  # ✅ allow all origins
 CORS(app, origins=["https://rameez-foodpanda.netlify.app"])
 
 @app.route('/')
@@ -22,10 +21,32 @@ def send_otp():
     EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
     msg = EmailMessage()
-    msg.set_content(f"Your OTP is: {otp}")
-    msg["Subject"] = "Password Reset OTP"
+    msg["Subject"] = "Your Food Panda Account OTP Verification Code"
     msg["From"] = EMAIL_ADDRESS
     msg["To"] = recipient
+
+    # Set detailed email body
+    msg.set_content(f"""
+Dear User,
+
+We have received a request to verify your identity for your Food Panda account.
+
+🔐 Your One-Time Password (OTP) is: {otp}
+
+Please enter this OTP to complete your verification process. This code is valid for the next 5 minutes.
+
+Why you're receiving this email:
+You (or someone using your email) initiated a password reset or login verification on the Food Panda platform.
+
+If you did not request this, please ignore this email. Your account is safe, and no changes have been made.
+
+If you continue to receive such emails without initiating them, we recommend changing your password or contacting our support team.
+
+Best regards,  
+Food Panda Team  
+https://rameez-foodpanda.netlify.app  
+support@foodpanda.example.com
+""")
 
     try:
         with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
