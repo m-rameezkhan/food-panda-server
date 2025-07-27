@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # ✅ import CORS
 import smtplib
 from email.message import EmailMessage
 import os
 
 app = Flask(__name__)
+# CORS(app)  # ✅ allow all origins
+CORS(app, origins=["https://rameez-foodpanda.netlify.app"])
 
 @app.route('/')
 def home():
@@ -15,7 +18,6 @@ def send_otp():
     recipient = data.get("email")
     otp = data.get("otp")
 
-    # Your Gmail app password (DO NOT hardcode in production)
     EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
     EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
